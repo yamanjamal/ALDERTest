@@ -19,7 +19,8 @@ return new class extends Migration
             $table->foreign('table_id')->references('id')->on('tables')->onDelete('RESTRICT')->onUpdate('RESTRICT');
 
             $table->datetime('order_date',0);
-            $table->double('description',12,2)->default(0.00);
+            $table->double('total_price',12,2)->default(0.00);
+
             $table->boolean('payment_state')->default(0);
             $table->enum('payment_method',['card','cash','city_ledger','voucher','credit'])->collation('utf8_unicode_ci')->nullable()->default(null);
 
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->foreign('client_id')->references('id')->on('users')->onDelete('RESTRICT')->onUpdate('RESTRICT');
 
             $table->enum('status',['pending','preparing','reserved','done','paid','canceled'])->collation('utf8_unicode_ci')->default('pending');
+            $table->integer('print_count')->default(0);
             
             $table->integer('customer')->default(1);
             
@@ -47,7 +49,6 @@ return new class extends Migration
             $table->index('table_id');
             $table->index('client_id');
             $table->index('user_id');
-
         });
     }
 
