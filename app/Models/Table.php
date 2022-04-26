@@ -14,15 +14,10 @@ class Table extends Model
         'status',
     ];
     
-    public function User(){
 
-        return $this->belongsTo(User::class);
-        
-    }
+    public function Orders(){
 
-    public function Tests(){
-
-        return $this->hasMany(Test::class);
+        return $this->hasMany(Order::class);
         
     }
 }

@@ -30,9 +30,9 @@ class Item extends Model
         
     }
 
-    public function Tests(){
+    public function Order_detailss(){
 
-        return $this->hasMany(Test::class);
+        return $this->hasMany(Order_details::class);
         
     }
 }

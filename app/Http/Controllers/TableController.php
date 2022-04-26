@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TableResource;
 use App\Models\Table;
 use Illuminate\Http\Request;
 
-class TableController extends Controller
+class TableController extends BaseController
 {
+
+    public $paginate=10;
+
+    public function __construct()
+    {
+        $this->authorizeResource(Table::class,'table');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,18 +23,8 @@ class TableController extends Controller
      */
     public function index()
     {
-        $tables = Table::all();
-        return view('Table.index',compact('tables'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('Table.create');
+        $tables = Table::paginate($this->paginate);
+        return $this->sendResponse(TableResource::collection($tables)->response()->getData(true),'Tables sent sussesfully');
     }
 
     /**
@@ -37,7 +36,7 @@ class TableController extends Controller
     public function store(Request $request)
     {
         $table = Table::create($request->validated());
-        return redirect()->route('Table.index')->with('success','Table created successfully');
+        return $this->sendResponse(new TableResource($table ),'Table created sussesfully');
     }
 
     /**
@@ -48,18 +47,7 @@ class TableController extends Controller
      */
     public function show(Table $table)
     {
-        return view('Table.show',compact('table'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Table  $table
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Table $table)
-    {
-        return view('Table.edit',compact('table'));
+        return $this->sendResponse(new TableResource($table),'Table shown sussesfully');
     }
 
     /**
@@ -71,8 +59,8 @@ class TableController extends Controller
      */
     public function update(Request $request, Table $table)
     {
-        $snack->update($request->validated());
-        return redirect()->back()->with('success','Table updated successfully');
+        $table->update($request->validated());
+        return $this->sendResponse(new TableResource($table),'Table updated sussesfully');
     }
 
     /**
@@ -84,6 +72,6 @@ class TableController extends Controller
     public function destroy(Table $table)
     {
         $table->delete();
-        return redirect()->route('Table.index')->with('success','Table deleted successfully'); 
+        return $this->sendResponse(new TableResource($table),'Table deleted sussesfully');
     }
 }

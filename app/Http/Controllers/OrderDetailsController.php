@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Order_detailsResource;
 use App\Models\Order_details;
 use Illuminate\Http\Request;
 
-class OrderDetailsController extends Controller
+class OrderDetailsController extends BaseController
 {
+
+    public $paginate=10;
+
+    public function __construct()
+    {
+        $this->authorizeResource(Order_details::class,'order_details');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,18 +23,8 @@ class OrderDetailsController extends Controller
      */
     public function index()
     {
-        $order_detailss = Order_details::all();
-        return view('Order_details.index',compact('order_detailss'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('Order_details.create');
+        $order_detailss = Order_details::paginate($this->paginate);
+        return $this->sendResponse(Order_detailsResource::collection($order_detailss)->response()->getData(true),'Order_detailss sent sussesfully');
     }
 
     /**
@@ -37,7 +36,7 @@ class OrderDetailsController extends Controller
     public function store(Request $request)
     {
         $order_details = Order_details::create($request->validated());
-        return redirect()->route('Order_details.index')->with('success','Order_details created successfully');
+        return $this->sendResponse(new Order_detailsResource($order_details ),'Order_details created sussesfully');
     }
 
     /**
@@ -48,18 +47,7 @@ class OrderDetailsController extends Controller
      */
     public function show(Order_details $order_details)
     {
-        return view('Order_details.show',compact('order_details'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Order_details  $order_details
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Order_details $order_details)
-    {
-        return view('Order_details.edit',compact('order_details'));
+        return $this->sendResponse(new Order_detailsResource($order_details),'Order_details shown sussesfully');
     }
 
     /**
@@ -71,8 +59,8 @@ class OrderDetailsController extends Controller
      */
     public function update(Request $request, Order_details $order_details)
     {
-        $snack->update($request->validated());
-        return redirect()->back()->with('success','Order_details updated successfully');
+        $order_details->update($request->validated());
+        return $this->sendResponse(new Order_detailsResource($order_details),'Order_details updated sussesfully');
     }
 
     /**
@@ -84,6 +72,6 @@ class OrderDetailsController extends Controller
     public function destroy(Order_details $order_details)
     {
         $order_details->delete();
-        return redirect()->route('Order_details.index')->with('success','Order_details deleted successfully'); 
+        return $this->sendResponse(new Order_detailsResource($order_details),'Order_details deleted sussesfully');
     }
 }

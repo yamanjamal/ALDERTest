@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
-class OrderController extends Controller
+class OrderController extends BaseController
 {
+
+    public $paginate=10;
+
+    public function __construct()
+    {
+        $this->authorizeResource(Order::class,'order');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,18 +23,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::all();
-        return view('Order.index',compact('orders'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('Order.create');
+        $orders = Order::paginate($this->paginate);
+        return $this->sendResponse(OrderResource::collection($orders)->response()->getData(true),'Orders sent sussesfully');
     }
 
     /**
@@ -37,7 +36,7 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $order = Order::create($request->validated());
-        return redirect()->route('Order.index')->with('success','Order created successfully');
+        return $this->sendResponse(new OrderResource($order ),'Order created sussesfully');
     }
 
     /**
@@ -48,18 +47,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return view('Order.show',compact('order'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Order $order)
-    {
-        return view('Order.edit',compact('order'));
+        return $this->sendResponse(new OrderResource($order),'Order shown sussesfully');
     }
 
     /**
@@ -71,8 +59,8 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        $snack->update($request->validated());
-        return redirect()->back()->with('success','Order updated successfully');
+        $order->update($request->validated());
+        return $this->sendResponse(new OrderResource($order),'Order updated sussesfully');
     }
 
     /**
@@ -84,6 +72,6 @@ class OrderController extends Controller
     public function destroy(Order $order)
     {
         $order->delete();
-        return redirect()->route('Order.index')->with('success','Order deleted successfully'); 
+        return $this->sendResponse(new OrderResource($order),'Order deleted sussesfully');
     }
 }
