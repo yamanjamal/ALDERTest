@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class IsCaptainMiddleware
 {
@@ -16,6 +17,9 @@ class IsCaptainMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
+        if(!(auth()->user()->Role->name === 'captain')){
+            abort(403);
+        }
         return $next($request);
     }
 }
