@@ -16,9 +16,16 @@ class Order_detailsResource extends JsonResource
     {
         return [
             'id'            => $this->id,
-            'title'         => $this->title,
-            'user'          => new UserResource($this->whenloaded('User')),
-            'tests'         => TestResource::collection($this->whenloaded('Tests')),
+            'order_id'      => $this->order_id,
+            'item_id'       => $this->item_id,
+            'total_price'   => $this->total_price,
+            'count'         => $this->count,
+            'is_fired'      => $this->is_fired,
+            'status'        => $this->status,
+            'notes'         => $this->notes,
+            'note_price'    => $this->note_price,
+            'delay'         => $this->delay,
+            'cost'          => $this->cost,
         ];
     }
 }

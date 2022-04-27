@@ -15,7 +15,7 @@ class CalculationService
    public function totalaftertaxes()
    {
 
-        return $this-taxesvalue() + $this->total_price;
+        return $this->taxesvalue() + $this->total_price;
        
    }
 

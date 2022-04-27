@@ -29,9 +29,16 @@ Route::group(['middleware'=>'auth:sanctum'], function() {
     });
     // +++++++++++++++++++++++++++++++end Registerations api+++++++++++++++++++++++++++++++++++
     
+    // +++++++++++++++++++++++++++++++start Registerations api+++++++++++++++++++++++++++++++++++
+    Route::group(['prefix' => 'User','middleware'=>'is_captain', function() {
+        
+    });
+    // +++++++++++++++++++++++++++++++end Registerations api+++++++++++++++++++++++++++++++++++
+    
 });
 
 Route::post('/orders',          [OrderController::class,'store']);
+Route::get('/orders/{order}',   [OrderController::class,'show']);
     
 Route::post('/register',          [RegisterController::class,'register']);
 Route::post('/login',             [RegisterController::class,'login']);
