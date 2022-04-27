@@ -27,6 +27,7 @@ class RegisterController extends BaseController
                 'username' => $request->username,
                 'email'    => $request->email,
                 'password' => Hash::make($request->password),
+                'role_id'    => $request->role_id,
             ]);
 
 
@@ -66,8 +67,8 @@ class RegisterController extends BaseController
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function logout(){
-       
+    public function logout()
+    {
         auth()->user()->tokens()->delete();
         return ['message'=>'logged out'];
     }

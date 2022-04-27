@@ -17,7 +17,7 @@ class IsCaptainMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!(auth()->user()->Role->name === 'captain')){
+        if(! (auth()->user()->Role->name === 'captain')){
             abort(403);
         }
         return $next($request);

@@ -25,8 +25,6 @@ class StoreOrderRequest extends FormRequest
     {
         return [
             'table_id'       => ['required','exists:tables,id'],
-            // 'item_id'        => ['required'],
-            // 'item_count'     => ['required'],
             'payment_method' => ['in:card,cash,city_ledger,voucher,credit','nullable'],
             'client_id'      => ['required','exists:clients,id'],
             'customer'       => ['required','numeric'],

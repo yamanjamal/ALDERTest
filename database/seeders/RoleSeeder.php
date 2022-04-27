@@ -18,5 +18,9 @@ class RoleSeeder extends Seeder
         Role::create([
                 'name'     => 'chief',
             ]);
+
+        Role::create([
+                'name'     => 'captain',
+            ]);
     }
 }
