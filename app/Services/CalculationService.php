@@ -15,7 +15,7 @@ class CalculationService
    public function totalaftertaxes()
    {
 
-        return $this->Consumption() + $this->Locat_administration() + $this->Rebuild_tax() + $this->total_price;
+        return $this-taxesvalue() + $this->total_price;
        
    }
 
