@@ -30,7 +30,7 @@ class Item extends Model
         
     }
 
-    public function Order_detailss(){
+    public function Order_details(){
 
         return $this->hasMany(Order_details::class);
         

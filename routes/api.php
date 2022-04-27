@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BaseCode\SanctumRegisteration\RegisterController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,7 @@ Route::group(['middleware'=>'auth:sanctum'], function() {
     
 });
 
+Route::post('/orders',          [OrderController::class,'store']);
     
 Route::post('/register',          [RegisterController::class,'register']);
 Route::post('/login',             [RegisterController::class,'login']);
