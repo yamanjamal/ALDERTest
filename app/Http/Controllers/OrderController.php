@@ -3,12 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderRequest;
+use App\Http\Resources\NotificationResource;
 use App\Http\Resources\OrderResource;
+use App\Models\Department;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\Order_details;
+use App\Models\Role;
+use App\Models\Roles;
 use App\Models\Table;
+use App\Models\User;
+use App\Notifications\OrderItemsNotification;
 use App\Services\CalculationService;
+use Illuminate\Support\Facades\Notification;
 
 class OrderController extends BaseController
 {
@@ -60,11 +67,14 @@ class OrderController extends BaseController
                     'notes'         => $order->notes,
                     'cost'          => $item->sell_price,
                 ]);
+               
+                    $department_id =  $item->Categorie->Department->id;
+                    $user=User::where('role_id',1)->where('department_id',$department_id)->first();
+                    Notification::send($user,new OrderItemsNotification($item));
+
                 $i++;
             }
             $i=0;
-
-
 
             $ordertotal_price=Order_details::where('order_id',$order->id)->sum('total_price');
             $itemscount  = $items->count();
@@ -105,6 +115,20 @@ class OrderController extends BaseController
     public function show(Order $order)
     {
         return $this->sendResponse(new OrderResource($order->load('Order_detailss')),'Order returned succesfuly');
+    }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  
+     * @return \Illuminate\Http\Response
+     */
+    public function myitems()
+    {
+        $user = auth()->user();
+        $notification = $user->notifications;
+        return $this->sendResponse(NotificationResource::collection($notification),'notifications sent sussesfully');
     }
 
 }

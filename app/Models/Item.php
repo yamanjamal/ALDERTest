@@ -30,6 +30,12 @@ class Item extends Model
         
     }
 
+    public function Categorie(){
+
+        return $this->belongsTo(Categorie::class,'category_id');
+        
+    }
+
     public function Order_details(){
 
         return $this->hasMany(Order_details::class);

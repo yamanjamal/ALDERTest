@@ -22,6 +22,10 @@ Route::group(['middleware'=>'auth:sanctum'], function() {
 
     Route::post('/orders',            [OrderController::class,'store']);
     
+    Route::group(['middleware'=>'is_chief'], function() {
+        Route::get('/orders/myitems',            [OrderController::class,'myitems']);
+    });
+    
     Route::group(['middleware'=>'is_captain'], function() {
         Route::get('/orders/{order}', [OrderController::class,'show']);
     });
