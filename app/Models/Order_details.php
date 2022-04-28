@@ -22,15 +22,16 @@ class Order_details extends Model
         'cost',
     ];
     
-    public function User(){
+    public function Order(){
 
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Order::class);
+        
+    }    
+
+    public function Item(){
+
+        return $this->belongsTo(Item::class);
         
     }
 
-    public function Tests(){
-
-        return $this->hasMany(Test::class);
-        
-    }
 }

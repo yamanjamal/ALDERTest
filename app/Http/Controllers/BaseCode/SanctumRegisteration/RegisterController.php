@@ -24,8 +24,10 @@ class RegisterController extends BaseController
         
         $user = User::create([
                 'name'     => $request->name,
+                'username' => $request->username,
                 'email'    => $request->email,
                 'password' => Hash::make($request->password),
+                'role_id'    => $request->role_id,
             ]);
 
 
@@ -54,7 +56,7 @@ class RegisterController extends BaseController
         $token['token']=$user->createtoken('alder,project')->plainTextToken;
 
         $response=[
-            'user'=>$user,
+            'user'=>new UserResource($user),
             'token'=>$token,
         ];
         return $this->sendResponse($response,'you logged in congrats');
@@ -65,8 +67,8 @@ class RegisterController extends BaseController
      * @param  Request $request [description]
      * @return [type]           [description]
      */
-    public function logout(){
-       
+    public function logout()
+    {
         auth()->user()->tokens()->delete();
         return ['message'=>'logged out'];
     }

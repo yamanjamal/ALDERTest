@@ -30,16 +30,23 @@ class Order extends Model
         'notes',
         'client_name',
     ];
+
     
+    public function Table(){
+
+        return $this->belongsTo(Table::class);
+        
+    }    
+
     public function User(){
 
         return $this->belongsTo(User::class);
         
     }
 
-    public function Tests(){
+    public function Order_detailss(){
 
-        return $this->hasMany(Test::class);
+        return $this->hasMany(Order_details::class);
         
     }
 }

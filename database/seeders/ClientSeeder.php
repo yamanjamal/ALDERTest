@@ -2,22 +2,21 @@
 
 namespace Database\Seeders;
 
+use App\Models\Client;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class ClientSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
-        $this->call([
-            RoleSeeder::class,
-            ClientSeeder::class,
-            UserSeeder::class,
-        ]);
+        Client::create([
+                'name'     => 'mahmood',
+            ]);
     }
 }

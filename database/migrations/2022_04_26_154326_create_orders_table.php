@@ -25,7 +25,7 @@ return new class extends Migration
             $table->enum('payment_method',['card','cash','city_ledger','voucher','credit'])->collation('utf8_unicode_ci')->nullable()->default(null);
 
             $table->unsignedBigInteger('client_id')->nullable()->default(null);
-            $table->foreign('client_id')->references('id')->on('users')->onDelete('RESTRICT')->onUpdate('RESTRICT');
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('RESTRICT')->onUpdate('RESTRICT');
 
             $table->enum('status',['pending','preparing','reserved','done','paid','canceled'])->collation('utf8_unicode_ci')->default('pending');
             $table->integer('print_count')->default(0);

@@ -30,9 +30,15 @@ class Item extends Model
         
     }
 
-    public function Tests(){
+    public function Categorie(){
 
-        return $this->hasMany(Test::class);
+        return $this->belongsTo(Categorie::class,'category_id');
+        
+    }
+
+    public function Order_details(){
+
+        return $this->hasMany(Order_details::class);
         
     }
 }
