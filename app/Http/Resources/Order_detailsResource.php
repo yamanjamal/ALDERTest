@@ -18,14 +18,14 @@ class Order_detailsResource extends JsonResource
             'id'            => $this->id,
             'order_id'      => $this->order_id,
             'item_id'       => $this->item_id,
-            'total_price'   => $this->total_price,
+            'total_price'   => number_format((double)($this->total_price), 2),
             'count'         => $this->count,
             'is_fired'      => $this->is_fired,
             'status'        => $this->status,
             'notes'         => $this->notes,
             'note_price'    => $this->note_price,
             'delay'         => $this->delay,
-            'cost'          => $this->cost,
+            'cost'          => number_format((double)($this->cost), 2),
         ];
     }
 }

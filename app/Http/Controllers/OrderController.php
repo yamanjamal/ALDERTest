@@ -41,14 +41,14 @@ class OrderController extends BaseController
                 'status'               => 'pending',
                 'print_count'          => $itemscount,
                 'customer'             => $request->customer,
-                'user_id'              => 18,
+                'user_id'              => auth()->user()->id,
                 'discount_amount'      => $request->discount,
                 'notes'                => $request->notes,
                 'client_name'          => $request->client_name,
             ]);
 
-            $i=0;
 
+            $i=0;
             foreach ($items as $item) {
                 $order_details = Order_details::create([
                     'order_id'      => $order->id,
@@ -89,10 +89,8 @@ class OrderController extends BaseController
             ]);
 
             \DB::commit();
-            // all good
         } catch (\Exception $e) {
             \DB::rollback();
-            // something went wrong
         }
 
         return $this->sendResponse(new OrderResource($order),'Order created sussesfully');
@@ -106,7 +104,7 @@ class OrderController extends BaseController
      */
     public function show(Order $order)
     {
-        return $this->sendResponse(new OrderResource($order->load('Order_detailss')),'Order created sussesfully');
+        return $this->sendResponse(new OrderResource($order->load('Order_detailss')),'Order returned sussesfully');
     }
 
 }

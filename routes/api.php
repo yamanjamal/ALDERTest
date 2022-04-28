@@ -24,7 +24,6 @@ Route::group(['middleware'=>'auth:sanctum'], function() {
     
     Route::group(['middleware'=>'is_captain'], function() {
         Route::get('/orders/{order}', [OrderController::class,'show']);
-
     });
     
 });

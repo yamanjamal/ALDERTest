@@ -30,6 +30,7 @@ class Order extends Model
         'notes',
         'client_name',
     ];
+
     
     public function Table(){
 

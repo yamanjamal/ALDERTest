@@ -56,7 +56,7 @@ class RegisterController extends BaseController
         $token['token']=$user->createtoken('alder,project')->plainTextToken;
 
         $response=[
-            'user'=>$user,
+            'user'=>new UserResource($user),
             'token'=>$token,
         ];
         return $this->sendResponse($response,'you logged in congrats');
