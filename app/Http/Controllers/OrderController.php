@@ -28,7 +28,6 @@ class OrderController extends BaseController
             $table=Table::where('id',$request->table_id)->first();
             $table->update(['status'=>'in_use']);
             
-            
             $items=Item::whereIn('id',array_column($request->items,'id'))->get();
             $itemscount  = count(array_column($request->items,'id'));
 
@@ -36,6 +35,7 @@ class OrderController extends BaseController
             $order = Order::create([
                 'table_id'             => $request->table_id,
                 'order_date'           => now(),
+                'payment_state'        => $request->payment_state,
                 'payment_method'       => $request->payment_method,
                 'client_id'            => $request->client_id,
                 'status'               => 'pending',
@@ -93,7 +93,7 @@ class OrderController extends BaseController
             \DB::rollback();
         }
 
-        return $this->sendResponse(new OrderResource($order),'Order created sussesfully');
+        return $this->sendResponse(new OrderResource($order),'Order created succesfuly');
     }
 
     /**
@@ -104,7 +104,7 @@ class OrderController extends BaseController
      */
     public function show(Order $order)
     {
-        return $this->sendResponse(new OrderResource($order->load('Order_detailss')),'Order returned sussesfully');
+        return $this->sendResponse(new OrderResource($order->load('Order_detailss')),'Order returned succesfuly');
     }
 
 }
